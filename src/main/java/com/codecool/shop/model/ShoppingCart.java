@@ -20,5 +20,6 @@ public class ShoppingCart {
         Product product = ProductDaoMem.getInstance().find(id);
         LineItem lineItem = new LineItem(product);
         cartItemList.add(lineItem);
+
     }
 }
