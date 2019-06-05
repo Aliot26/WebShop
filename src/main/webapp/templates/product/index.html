@@ -26,6 +26,7 @@
     <!-- End of Bootstrap components -->
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 
 <body>
@@ -34,11 +35,17 @@
     <h1>Codecool Shop</h1>
 </div>
 
+<div class="card">
+    <i class="fas fa-shopping-cart"></i>
+    <strong th:text="${counter}"></strong>
+</div>
+
 <div class="container">
+    <a href="/">...</a>
     <form action="/category" method="POST">
         <label for="categories">All categories</label>
         <select id="categories" name="category">
-            <option th:each="category : ${categoryList}" th:text="${category.name}" th:name="category.name"></option>
+            <option th:each="category : ${categoryList}" th:text="${category.name}"></option>
         </select>
         <button>Choose</button>
     </form>

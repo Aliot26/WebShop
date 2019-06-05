@@ -32,6 +32,6 @@ public class CategoryController extends HttpServlet {
         context.setVariable("category", productCategoryDataStore.findByName(categoryFromForm));
         context.setVariable("products", productDataStore.getBy(productCategoryDataStore.findByName(categoryFromForm)));
         context.setVariable("categoryList", productCategoryDataStore.getAll());
-        engine.process("product/categories.html", context, resp.getWriter());
+        engine.process("product/index.html", context, resp.getWriter());
     }
 }

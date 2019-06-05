@@ -26,4 +26,16 @@ public class LineItem {
                 ", price=" + calculatePrice() +
                 ')';
     }
+
+    public void increaseQuantity() {
+        this.quantity++;
+    }
+
+    public int getProductId() {
+        return product.getId();
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }
