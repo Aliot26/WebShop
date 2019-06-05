@@ -12,9 +12,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/cart"})
@@ -38,9 +36,16 @@ public class OrderController extends HttpServlet {
 
         int totalItems = lineItemDaoMem.getTotalQuantityInCart();
 
+        HttpSession session = req.getSession(true);
+        session.setAttribute("totalItems", totalItems);
+
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         context.setVariable("category", productCategoryDataStore.find(1));
+
+        if(req.getServletPath().equals("/category")) {
+
+        }
         context.setVariable("products", productDataStore.getAll());
         context.setVariable("categoryList", productCategoryDataStore.getAll());
         context.setVariable("counter", totalItems);
