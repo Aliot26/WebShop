@@ -6,6 +6,4 @@ import java.util.List;
 public class Order {
     private List<LineItem> items = new ArrayList<>();
     private Customer customer;
-
-
 }
