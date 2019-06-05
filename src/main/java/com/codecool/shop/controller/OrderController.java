@@ -1,11 +1,7 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.LineItemDaoMem;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Product;
 import org.thymeleaf.TemplateEngine;
