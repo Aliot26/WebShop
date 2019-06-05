@@ -31,8 +31,14 @@ public class LineItem {
         this.quantity++;
     }
 
+    public String getProductName(){return product.getName();}
+
     public int getProductId() {
         return product.getId();
+    }
+
+    public float getProductDefaultPrice() {
+        return product.getDefaultPrice();
     }
 
     public int getQuantity() {

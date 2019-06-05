@@ -42,13 +42,11 @@ public class OrderController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         context.setVariable("category", productCategoryDataStore.find(1));
-
-        if(req.getServletPath().equals("/category")) {
-
-        }
         context.setVariable("products", productDataStore.getAll());
         context.setVariable("categoryList", productCategoryDataStore.getAll());
         context.setVariable("counter", totalItems);
-        engine.process("product/index.html", context, resp.getWriter());
+        context.setVariable("productsInCart",lineItemDaoMem.getLineItemList());
+        System.out.println(lineItemDaoMem.getLineItemList());
+        engine.process("product/index1.html", context, resp.getWriter());
     }
 }
