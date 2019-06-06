@@ -20,14 +20,11 @@ public class ProductController extends MainController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Map params = super.getParams();
         HttpSession session = req.getSession(true);
 
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariables(params);
+        Map<String, Object> optionalParameters = new HashMap<>();
+        optionalParameters.put("counter", session.getAttribute("totalItems"));
 
-        context.setVariable("counter", session.getAttribute("totalItems"));
-        engine.process("product/index1.html", context, resp.getWriter());
+        super.renderTemplate(req, resp, "product/index1.html", optionalParameters);
     }
 }

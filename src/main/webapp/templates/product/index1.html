@@ -91,25 +91,32 @@
                         </a>
                         <div class="custom-menu">
                             <div id="shopping-cart">
-                                <div class="shopping-cart-list" th:each="line,iterStat : ${productsInCart}" >
+                                <div class="shopping-cart-list" th:each="line,iterStat : ${productsInCart}">
                                     <div class="product product-widget">
                                         <form method="POST" action="/remove">
                                             <div class="product-thumb">
                                                 <img src="http://placehold.it/400x250/000/fff"
-                                                     th:attr="src='/static/img/product_' + ${line.getProductId()} + '.jpg'" alt=""/>
+                                                     th:attr="src='/static/img/product_' + ${line.getProductId()} + '.jpg'"
+                                                     alt=""/>
                                             </div>
                                             <div class="product-body">
-                                                <h2 class="product-name" th:text="${line.getProductName()}">Product Name</h2>
-                                                <h3 class="product-price" th:text="${line.getProductDefaultPrice()}" >$32.50> </h3>
-                                                <h2 class="product-price"><span>X    </span><span th:text="${line.quantity}">X</span></h2>
+                                                <h2 class="product-name" th:text="${line.getProductName()}">Product
+                                                    Name</h2>
+                                                <h3 class="product-price" th:text="${line.getProductDefaultPrice()}">
+                                                    $32.50> </h3>
+                                                <h2 class="product-price"><span>X    </span><span
+                                                        th:text="${line.quantity}">X</span></h2>
                                             </div>
-                                            <input th:name="productId" th:value="${line.getProductId()}" style="visibility: hidden;">
+                                            <input th:name="productId" th:value="${line.getProductId()}"
+                                                   style="visibility: hidden;">
                                             <button class="cancel-btn"><i class="fa fa-trash"></i></button>
                                         </form>
                                     </div>
                                 </div>
                                 <div class="shopping-cart-btns">
-                                    <button class="main-btn">View Cart</button>
+                                    <a href="/orderView">
+                                        <button class="main-btn">View Cart</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

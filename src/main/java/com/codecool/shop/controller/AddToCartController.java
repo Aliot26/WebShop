@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @WebServlet(urlPatterns = {"/cart"})
-public class OrderController extends MainController {
+public class AddToCartController extends MainController {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         int productId = Integer.parseInt(req.getParameter("productId"));

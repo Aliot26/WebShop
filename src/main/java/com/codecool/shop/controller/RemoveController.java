@@ -16,18 +16,25 @@ import java.util.Map;
 @WebServlet(urlPatterns = {"/remove"})
 public class RemoveController extends MainController  {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int productId = Integer.parseInt(req.getParameter("productId"));
         LineItemDaoMem lineItemDaoMem = LineItemDaoMem.getInstance();
 
-        LineItem lineToRemove = lineItemDaoMem.findByProduct(productId);
+        if(req.getParameter("productId") != null) {
+            int productId = Integer.parseInt(req.getParameter("productId"));
+            LineItem lineToRemove = lineItemDaoMem.findByProduct(productId);
 
-        if(lineToRemove.getQuantity() == 1) {
+            if(lineToRemove.getQuantity() == 1) {
+                lineItemDaoMem.getLineItemList().remove(lineToRemove);
+            }
+            else {
+                lineToRemove.decreaseQuantity();
+            }
+        }
+
+        else if(req.getParameter("productIdFromOrder") != null) {
+            int productId = Integer.parseInt(req.getParameter("productIdFromOrder"));
+            LineItem lineToRemove = lineItemDaoMem.findByProduct(productId);
             lineItemDaoMem.getLineItemList().remove(lineToRemove);
         }
-        else {
-            lineToRemove.decreaseQuantity();
-        }
-
 
         Map params = super.getParams();
 
@@ -40,6 +47,7 @@ public class RemoveController extends MainController  {
         context.setVariables(params);
         context.setVariable("counter", totalItems);
         context.setVariable("productsInCart", lineItemDaoMem.getLineItemList());
+
         engine.process("product/index1.html", context, resp.getWriter());
     }
 }

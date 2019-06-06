@@ -35,9 +35,18 @@ public class LineItem {
         this.quantity--;
     }
 
+    public void setQuantity(int quantity) {
+        if (quantity >= 0) {
+            this.quantity = quantity;
+        }
+        else {
+            this.quantity = 0;
+        }
+    }
 
-
-    public String getProductName(){return product.getName();}
+    public String getProductName() {
+        return product.getName();
+    }
 
     public int getProductId() {
         return product.getId();
