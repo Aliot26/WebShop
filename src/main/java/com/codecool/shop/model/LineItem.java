@@ -31,6 +31,12 @@ public class LineItem {
         this.quantity++;
     }
 
+    public void decreaseQuantity() {
+        this.quantity--;
+    }
+
+
+
     public String getProductName(){return product.getName();}
 
     public int getProductId() {

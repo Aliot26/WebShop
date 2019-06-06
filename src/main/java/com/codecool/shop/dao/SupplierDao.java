@@ -10,5 +10,6 @@ public interface SupplierDao {
     Supplier find(int id);
     void remove(int id);
 
+    Supplier findByName(String name);
     List<Supplier> getAll();
 }

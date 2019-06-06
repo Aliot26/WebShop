@@ -4,4 +4,5 @@ import com.codecool.shop.model.LineItem;
 
 public interface LineItemDao {
     void add(LineItem lineItem);
+    void remove(LineItem lineItem);
 }

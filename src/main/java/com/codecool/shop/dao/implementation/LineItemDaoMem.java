@@ -24,6 +24,11 @@ public class LineItemDaoMem implements LineItemDao {
         this.lineItemList.add(lineItem);
     }
 
+    @Override
+    public void remove(LineItem lineItem) {
+        this.lineItemList.remove(lineItem);
+    }
+
 
     public LineItem findByProduct(int productId) {
         return lineItemList.stream().filter(t -> t.getProductId() == productId).findFirst().orElse(null);
