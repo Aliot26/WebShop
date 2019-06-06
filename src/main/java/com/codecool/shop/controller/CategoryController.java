@@ -14,8 +14,12 @@ public class CategoryController extends MainController {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String categoryFromForm = req.getParameter("category");
         Map <String, Object>params = super.getParams();
+        if(categoryFromForm.equals("All categories")){
+            params.replace("products", super.getProductDataStore().getAll());
+        }else{
+            params.replace("products", super.getProductDataStore().getBy(super.getProductCategoryDataStore().findByName(categoryFromForm)));
+        }
         params.replace("category", super.getProductCategoryDataStore().findByName(categoryFromForm));
-        params.replace("products", super.getProductDataStore().getBy(super.getProductCategoryDataStore().findByName(categoryFromForm)));
 
         HttpSession session = req.getSession(true);
         params.put("counter", session.getAttribute("totalItems"));
