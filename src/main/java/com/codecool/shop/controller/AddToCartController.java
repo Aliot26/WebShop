@@ -1,11 +1,8 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.implementation.LineItemDaoMem;
 import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Product;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -29,7 +26,7 @@ public class AddToCartController extends MainController {
 
         int totalItems = lineItemDaoMem.getTotalQuantityInCart();
 
-        Map params = super.getParams();
+        Map <String, Object>params = super.getParams();
         HttpSession session = req.getSession(true);
         session.setAttribute("totalItems", totalItems);
 

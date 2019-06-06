@@ -55,7 +55,6 @@ public class MainController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-        context.setVariables(params);
         context.setVariables(optionalParameters);
 
         engine.process(HTMLpath, context, resp.getWriter());

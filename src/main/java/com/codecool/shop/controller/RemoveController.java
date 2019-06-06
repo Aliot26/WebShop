@@ -1,10 +1,8 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.implementation.LineItemDaoMem;
 import com.codecool.shop.model.LineItem;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
+
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +18,7 @@ public class RemoveController extends MainController  {
         int totalItems;
         HttpSession session = req.getSession(true);
 
-
-        Map params = super.getParams();
+        Map <String, Object>params = super.getParams();
 
         if(req.getParameter("productId") != null) {
             int productId = Integer.parseInt(req.getParameter("productId"));
@@ -50,7 +47,7 @@ public class RemoveController extends MainController  {
             session.setAttribute("totalItems", lineItemDaoMem.getTotalQuantityInCart());
 
             params.put("counter", totalItems);
-            params.put("productsInCart", lineItemDaoMem.getLineItemList());
+            params.put("itemsInCart", lineItemDaoMem.getLineItemList());
             super.renderTemplate(req, resp, "product/checkout1.html", params);
         }
     }

@@ -2,7 +2,6 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.LineItemDao;
 import com.codecool.shop.model.LineItem;
-import com.codecool.shop.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
