@@ -45,4 +45,12 @@ public class LineItemDaoMem implements LineItemDao {
         }
         return counter;
     }
+
+    public double getCartTotalAmount() {
+        double total = 0;
+        for (LineItem lineItem : lineItemList) {
+            total += lineItem.calculatePrice();
+        }
+        return Math.round(total * 100.0) / 100;
+    }
 }

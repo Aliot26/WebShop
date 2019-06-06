@@ -33,12 +33,9 @@ public class AddToCartController extends MainController {
         HttpSession session = req.getSession(true);
         session.setAttribute("totalItems", totalItems);
 
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        WebContext context = new WebContext(req, resp, req.getServletContext());
+        params.put("counter", totalItems);
+        params.put("productsInCart", lineItemDaoMem.getLineItemList());
 
-        context.setVariables(params);
-        context.setVariable("counter", totalItems);
-        context.setVariable("productsInCart", lineItemDaoMem.getLineItemList());
-        engine.process("product/index1.html", context, resp.getWriter());
+        super.renderTemplate(req, resp, "product/index1.html", params);
     }
 }

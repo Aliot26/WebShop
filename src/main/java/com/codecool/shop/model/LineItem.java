@@ -11,7 +11,7 @@ public class LineItem {
     }
 
     public float calculatePrice() {
-        return quantity * product.getDefaultPrice();
+        return Math.round(quantity * product.getDefaultPrice() * 100.0) / 100;
     }
 
     public void setOrder(int orderId) {

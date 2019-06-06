@@ -17,6 +17,11 @@ import java.util.Map;
 public class RemoveController extends MainController  {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         LineItemDaoMem lineItemDaoMem = LineItemDaoMem.getInstance();
+        int totalItems;
+        HttpSession session = req.getSession(true);
+
+
+        Map params = super.getParams();
 
         if(req.getParameter("productId") != null) {
             int productId = Integer.parseInt(req.getParameter("productId"));
@@ -28,26 +33,25 @@ public class RemoveController extends MainController  {
             else {
                 lineToRemove.decreaseQuantity();
             }
+            totalItems = lineItemDaoMem.getTotalQuantityInCart();
+            session.setAttribute("totalItems", lineItemDaoMem.getTotalQuantityInCart());
+
+            params.put("counter", totalItems);
+            params.put("productsInCart", lineItemDaoMem.getLineItemList());
+            super.renderTemplate(req, resp, "product/index1.html", params);
         }
 
         else if(req.getParameter("productIdFromOrder") != null) {
             int productId = Integer.parseInt(req.getParameter("productIdFromOrder"));
             LineItem lineToRemove = lineItemDaoMem.findByProduct(productId);
             lineItemDaoMem.getLineItemList().remove(lineToRemove);
+
+            totalItems = lineItemDaoMem.getTotalQuantityInCart();
+            session.setAttribute("totalItems", lineItemDaoMem.getTotalQuantityInCart());
+
+            params.put("counter", totalItems);
+            params.put("productsInCart", lineItemDaoMem.getLineItemList());
+            super.renderTemplate(req, resp, "product/checkout1.html", params);
         }
-
-        Map params = super.getParams();
-
-        int totalItems = lineItemDaoMem.getTotalQuantityInCart();
-        HttpSession session = req.getSession(true);
-        session.setAttribute("totalItems", totalItems);
-
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariables(params);
-        context.setVariable("counter", totalItems);
-        context.setVariable("productsInCart", lineItemDaoMem.getLineItemList());
-
-        engine.process("product/index1.html", context, resp.getWriter());
     }
 }

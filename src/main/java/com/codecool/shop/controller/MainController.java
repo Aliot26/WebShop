@@ -25,11 +25,11 @@ public class MainController extends HttpServlet {
     private SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
     private Map<String, Object> params = createMap();
 
-    public Map getParams() {
+    public Map<String, Object> getParams() {
         return params;
     }
 
-    private Map createMap() {
+    private Map<String, Object> createMap() {
 
         params = new HashMap<String, Object>();
         params.put("category", productCategoryDataStore.find(1));

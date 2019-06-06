@@ -1,6 +1,7 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.implementation.LineItemDaoMem;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -19,12 +20,12 @@ public class ProductController extends MainController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LineItemDaoMem lineItemDaoMem = LineItemDaoMem.getInstance();
 
         HttpSession session = req.getSession(true);
-
-        Map<String, Object> optionalParameters = new HashMap<>();
-        optionalParameters.put("counter", session.getAttribute("totalItems"));
-
-        super.renderTemplate(req, resp, "product/index1.html", optionalParameters);
+        Map params = super.getParams();
+        params.put("counter", session.getAttribute("totalItems"));
+        params.put("productsInCart", lineItemDaoMem.getLineItemList());
+        super.renderTemplate(req, resp, "product/index1.html", params);
     }
 }

@@ -22,12 +22,7 @@ public class SupplierController extends MainController {
         params.replace("products", super.getProductDataStore().getBy(super.getProductSupplierDataStore().findByName(supplierFromForm)));
 
         HttpSession session = req.getSession(true);
-
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariables(params);
-
-        context.setVariable("counter", session.getAttribute("totalItems"));
-        engine.process("product/index1.html", context, resp.getWriter());
+        params.put("counter", session.getAttribute("totalItems"));
+        super.renderTemplate(req, resp, "product/index1.html", params);
     }
 }

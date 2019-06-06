@@ -119,25 +119,14 @@
                         <td class="text-right">
                             <button class="main-btn icon-btn"><i class="fa fa-close"></i></button>
                         </td>
-                    </form>
-                </tr>
+                    </form></tr>
 
                 </tbody>
                 <tfoot>
                 <tr>
                     <th class="empty" colspan="3"></th>
-                    <th>SUBTOTAL</th>
-                    <th colspan="2" class="sub-total">$97.50</th>
-                </tr>
-                <tr>
-                    <th class="empty" colspan="3"></th>
-                    <th>SHIPING</th>
-                    <td colspan="2">Free Shipping</td>
-                </tr>
-                <tr>
-                    <th class="empty" colspan="3"></th>
                     <th>TOTAL</th>
-                    <th colspan="2" class="total">$97.50</th>
+                    <th colspan="2" class="total" th:text="${totalAmount}">$97.50</th>
                 </tr>
                 </tfoot>
             </table>

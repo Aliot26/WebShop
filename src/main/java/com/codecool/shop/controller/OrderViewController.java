@@ -20,31 +20,22 @@ public class OrderViewController extends MainController {
         LineItemDaoMem lineItemDaoMem = LineItemDaoMem.getInstance();
 
         Map params = super.getParams();
-        HttpSession session = req.getSession(true);
-
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariables(params);
-        context.setVariable("itemsInCart", lineItemDaoMem.getLineItemList());
-        engine.process("product/checkout1.html", context, resp.getWriter());
+        params.put("itemsInCart", lineItemDaoMem.getLineItemList());
+        params.put("totalAmount", lineItemDaoMem.getCartTotalAmount());
+        super.renderTemplate(req, resp, "product/checkout1.html", params);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         int productId = Integer.parseInt(req.getParameter("productId"));
         int newQuantity = Integer.parseInt(req.getParameter("newQuantity"));
-
-        System.out.println(productId);
 
         LineItemDaoMem lineItemDaoMem = LineItemDaoMem.getInstance();
         lineItemDaoMem.findByProduct(productId).setQuantity(newQuantity);
 
         Map params = super.getParams();
+        params.put("itemsInCart", lineItemDaoMem.getLineItemList());
+        params.put("totalAmount", lineItemDaoMem.getCartTotalAmount());
 
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariables(params);
-        context.setVariable("itemsInCart", lineItemDaoMem.getLineItemList());
-        engine.process("product/checkout1.html", context, resp.getWriter());
+        super.renderTemplate(req, resp, "product/checkout1.html", params);
     }
 }
