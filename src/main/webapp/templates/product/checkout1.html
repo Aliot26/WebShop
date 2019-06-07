@@ -108,7 +108,7 @@
                             <input class="input" type="number" th:name="newQuantity" th:value="${line.quantity}" min="0">
                             <input th:type="text" th:name="productId" th:value="${line.getProductId()}"
                                    style="visibility: hidden;">
-                            <button>Update</button>
+                                    <button class="main-btn"><i class="fa fa-pencil-square">Update</i></button>
                         </td>
                         <td class="total text-center"><strong class="primary-color" th:text="${line.calculatePrice()}">$32.50</strong>
                         </td>
