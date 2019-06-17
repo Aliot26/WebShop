@@ -7,8 +7,9 @@ ALTER table IF EXISTS ONLY products DROP CONSTRAINT IF EXISTS fk_categories_id C
 
 
 DROP TABLE IF EXISTS products;
-create table products
-    id serial  not null constraint products_pk primary key AUTO_INCREMENT,
+DROP SEQUENCE IF EXISTS products_id_seq;
+create table products(
+    id serial primary key,
     name           varchar not null,
     defaultprice   double precision,
     currencystring varchar,
@@ -17,35 +18,37 @@ create table products
     idsupplier     integer
 );
 
-DROP table IF EXISTS suppliers
+DROP table IF EXISTS suppliers;
+DROP SEQUENCE IF EXISTS suppliers_id_seq;
 create table suppliers(
-    id serial not null constraint suppliers_pk primary key AUTO_INCREMENT,
+    id serial  primary key,
     name varchar not null,
     description varchar
-)
+);
 
-drop table if exists categories
+drop table if exists categories;
+DROP SEQUENCE IF EXISTS categories_id_seq;
 create table categories(
-    id serial not null constraint categories_pk primary key AUTO_INCREMENT,
+    id serial  primary key,
     name varchar,
     department varchar,
     description varchar
-)
+);
 
 ALTER table products ADD CONSTRAINT fk_idsupplier FOREIGN KEY(idsupplier) REFERENCES suppliers(id);
 ALTER table products ADD CONSTRAINT fk_idcategory FOREIGN KEY(idcategory) REFERENCES categories(id);
 
-INSERT INTO suppliers VALUES ('Amazon', 'Digital content and services');
-INSERT INTO suppliers VALUES ('Lenovo', 'Computers');
+INSERT INTO suppliers VALUES (1,'Amazon', 'Digital content and services');
+INSERT INTO suppliers VALUES (2, 'Lenovo', 'Computers');
 
-INSERT INTO categories VALUES('Tablet', 'Hardware', 'A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.');
-INSERT INTO categories VALUES('Laptop', 'Hardware', 'A personal computer, you need it to code');
-INSERT INTO categories VALUES('Ebook', 'Portable', 'blablabla');
+INSERT INTO categories VALUES(1,'Tablet', 'Hardware', 'A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.');
+INSERT INTO categories VALUES(2, 'Laptop', 'Hardware', 'A personal computer, you need it to code');
+INSERT INTO categories VALUES(3, 'Ebook', 'Portable', 'blablabla');
 
-INSERT INTO products VALUES ('Amazon Fire', 49.9, 'USD', 'Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.', 1, 1);
-INSERT INTO products VALUES ('Lenovo IdeaPad Miix 700', 479.9, 'USD', 'Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.', 1, 1);
-INSERT INTO products VALUES ('Amazon Fire HD 8', 89, 'USD', 'Amazon\`s latest Fire HD 8 tablet is a great value for media consumption.', 1, 1);
-INSERT INTO products VALUES ('Kindle Paperwhite', 50, 'USD', 'We love Kindle :)', 1, 1);
+INSERT INTO products VALUES (1, 'Amazon Fire', 49.9, 'USD', 'Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.', 1, 1);
+INSERT INTO products VALUES (2, 'Lenovo IdeaPad Miix 700', 479.9, 'USD', 'Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.', 1, 1);
+INSERT INTO products VALUES (3, 'Amazon Fire HD 8', 89, 'USD', 'Amazon\`s latest Fire HD 8 tablet is a great value for media consumption.', 1, 1);
+INSERT INTO products VALUES (4, 'Kindle Paperwhite', 50, 'USD', 'We love Kindle :)', 1, 1);
 
 
 
