@@ -18,7 +18,7 @@ public class OrderViewController extends MainController {
         Map <String, Object>params = super.getParams();
         params.put("itemsInCart", lineItemDaoMem.getLineItemList());
         params.put("totalAmount", lineItemDaoMem.getCartTotalAmount());
-        super.renderTemplate(req, resp, "product/checkout1.html", params);
+        super.renderTemplate(req, resp, "product/checkout.html", params);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -32,6 +32,6 @@ public class OrderViewController extends MainController {
         params.put("itemsInCart", lineItemDaoMem.getLineItemList());
         params.put("totalAmount", lineItemDaoMem.getCartTotalAmount());
 
-        super.renderTemplate(req, resp, "product/checkout1.html", params);
+        super.renderTemplate(req, resp, "product/checkout.html", params);
     }
 }

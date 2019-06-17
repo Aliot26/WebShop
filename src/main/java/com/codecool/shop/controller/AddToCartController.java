@@ -33,6 +33,7 @@ public class AddToCartController extends MainController {
         params.put("counter", totalItems);
         params.put("productsInCart", lineItemDaoMem.getLineItemList());
 
-        super.renderTemplate(req, resp, "product/index1.html", params);
+        super.renderTemplate(req, resp, "product/index.html", params);
+
     }
 }

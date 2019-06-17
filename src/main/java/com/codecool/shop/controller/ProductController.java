@@ -22,6 +22,6 @@ public class ProductController extends MainController {
         Map <String, Object>params = super.getParams();
         params.put("counter", session.getAttribute("totalItems"));
         params.put("productsInCart", lineItemDaoMem.getLineItemList());
-        super.renderTemplate(req, resp, "product/index1.html", params);
+        super.renderTemplate(req, resp, "product/index.html", params);
     }
 }

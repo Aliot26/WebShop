@@ -13,7 +13,6 @@ import com.codecool.shop.model.Supplier;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.util.List;
 
 @WebListener
 public class Initializer implements ServletContextListener {
@@ -50,5 +49,7 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product("Amazon Fire HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon));
         productDataStore.add(new Product("Kindle Paperwhite", 50, "USD", "We love Kindle :)", ebook, amazon));
         productDataStore.add(new Product("Lenovo Yoga 460", 429, "USD", "Convertible business premium laptop", laptop, lenovo));
+
+
     }
 }

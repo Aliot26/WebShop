@@ -24,6 +24,6 @@ public class SupplierController extends MainController {
 
         HttpSession session = req.getSession(true);
         params.put("counter", session.getAttribute("totalItems"));
-        super.renderTemplate(req, resp, "product/index1.html", params);
+        super.renderTemplate(req, resp, "product/index.html", params);
     }
 }

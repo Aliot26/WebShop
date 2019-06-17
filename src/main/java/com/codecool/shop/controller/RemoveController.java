@@ -35,7 +35,7 @@ public class RemoveController extends MainController  {
 
             params.put("counter", totalItems);
             params.put("productsInCart", lineItemDaoMem.getLineItemList());
-            super.renderTemplate(req, resp, "product/index1.html", params);
+            super.renderTemplate(req, resp, "product/index.html", params);
         }
 
         else if(req.getParameter("productIdFromOrder") != null) {
@@ -48,7 +48,7 @@ public class RemoveController extends MainController  {
 
             params.put("counter", totalItems);
             params.put("itemsInCart", lineItemDaoMem.getLineItemList());
-            super.renderTemplate(req, resp, "product/checkout1.html", params);
+            super.renderTemplate(req, resp, "product/checkout.html", params);
         }
     }
 }
