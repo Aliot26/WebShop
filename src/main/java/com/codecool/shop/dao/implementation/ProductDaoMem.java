@@ -1,13 +1,11 @@
 package com.codecool.shop.dao.implementation;
 
 
-import com.codecool.shop.SQL.ConnectionDB;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,28 +45,6 @@ public class ProductDaoMem implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-
-        String query = "SELECT * FROM products";
-
-        try(Connection connection = ConnectionDB.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
-            ResultSet rs = statement.executeQuery();
-
-            while(rs.next()) {
-
-                String name = rs.getString("name");
-                double defaultPrice = rs.getDouble("defaultPrice");
-                String currency = rs.getString("currency");
-                String description = rs.getString("description");
-
-                Product product = new Product(name, defaultPrice, currency, description,  );
-                product.setId(rs.getInt("id"));
-                data.add(product);
-            }
-        }
-        catch (SQLException e) {
-
-        }
 
         return data;
     }
