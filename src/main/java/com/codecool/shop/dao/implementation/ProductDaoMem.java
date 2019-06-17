@@ -55,7 +55,7 @@ public class ProductDaoMem implements ProductDao {
             ResultSet rs = statement.executeQuery();
 
             while(rs.next()) {
-                
+
                 String name = rs.getString("name");
                 double defaultPrice = rs.getDouble("defaultPrice");
                 String currency = rs.getString("currency");
