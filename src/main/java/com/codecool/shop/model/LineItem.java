@@ -52,7 +52,7 @@ public class LineItem {
         return product.getId();
     }
 
-    public float getProductDefaultPrice() {
+    public double getProductDefaultPrice() {
         return product.getDefaultPrice();
     }
 

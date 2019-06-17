@@ -4,9 +4,7 @@ import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -20,9 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainController extends HttpServlet {
-    private ProductDao productDataStore = ProductDaoMem.getInstance();
-    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-    private SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+//    private ProductDao productDataStore = ProductDaoMem.getInstance();
+//    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+//    private SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+    private ProductDao productDataStore = ProductDaoJDBC.getInstance();
+    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+    private SupplierDao productSupplierDataStore = SupplierDaoJDBC.getInstance();
+
+
     private Map<String, Object> params = createMap();
 
     public Map<String, Object> getParams() {
