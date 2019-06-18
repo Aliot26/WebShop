@@ -68,14 +68,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
              PreparedStatement statement = connect.prepareStatement(query)) {
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                ProductCategory result = new ProductCategory(resultSet.getString("name"),
-                        resultSet.getString("department"),
-                        resultSet.getString("description")
-                );
-                result.setId(resultSet.getInt("id"));
-                return result;
-            }
+            return getProductCategory(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }

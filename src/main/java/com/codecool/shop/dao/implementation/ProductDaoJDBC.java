@@ -48,6 +48,7 @@ public class ProductDaoJDBC implements ProductDao {
 
     }
 
+
     @Override
     public List<Product> getAll() {
         List<Product> allProducts = new ArrayList<>();
@@ -57,16 +58,7 @@ public class ProductDaoJDBC implements ProductDao {
         ) {
             ResultSet resultSet;
             resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Product result = new Product(resultSet.getString("name"),
-                        Double.parseDouble(resultSet.getString("defaultprice")),
-                        resultSet.getString("currency"),
-                        resultSet.getString("description"),
-                        productCategoryDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idcategory"))),
-                        supplierDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idsupplier"))));
-                result.setId(resultSet.getInt("id"));
-                allProducts.add(result);
-            }
+            return getProduct(resultSet, allProducts);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,20 +83,26 @@ public class ProductDaoJDBC implements ProductDao {
             statement.setInt(1, idCategory);
             ResultSet resultSet;
             resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Product result = new Product(resultSet.getString("name"),
-                        Double.parseDouble(resultSet.getString("defaultprice")),
-                        resultSet.getString("currency"),
-                        resultSet.getString("description"),
-                        productCategoryDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idcategory"))),
-                        supplierDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idsupplier"))));
-                result.setId(resultSet.getInt("id"));
-                allProducts.add(result);
-            }
-            return allProducts;
+            return getProduct(resultSet, allProducts);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private List<Product> getProduct(ResultSet resultSet, List<Product> allProducts) throws SQLException {
+        while (resultSet.next()) {
+            Product result = new Product(resultSet.getString("name"),
+                    Double.parseDouble(resultSet.getString("defaultprice")),
+                    resultSet.getString("currency"),
+                    resultSet.getString("description"),
+                    productCategoryDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idcategory"))),
+                    supplierDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idsupplier"))));
+            result.setId(resultSet.getInt("id"));
+
+            allProducts.add(result);
+        }
+        return allProducts;
+
     }
 }
