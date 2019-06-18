@@ -11,7 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+
+import static com.codecool.shop.SQL.ConnectionDB.getConnection;
 
 public class ProductDaoJDBC implements ProductDao {
 
@@ -35,11 +38,45 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public void add(Product product) {
-
+        String query = "INSERT INTO products"
+        +"(name, defaultprice, currency, description, idcategory, idsupplier)VALUES "
+                + "(?,?,?,?,?,?)";
+        try(Connection connect = getConnection();
+        PreparedStatement statement = connect.prepareStatement(query)){
+            statement.setString(1, product.getName());
+            statement.setDouble(2, product.getDefaultPrice());
+            statement.setString(3, String.valueOf(product.getDefaultCurrency()));
+            statement.setString(4,product.getDescription());
+            statement.setInt(5, product.getProductCategory().getId());
+            statement.setInt(6,product.getSupplier().getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Product find(int id) {
+        String query = "SELECT * FROM products WHERE id=?;";
+        try (Connection connect = getConnection();
+             PreparedStatement statement = connect.prepareStatement(query)
+        ) {
+            statement.setInt(1, id);
+            ResultSet resultSet;
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Product result = new Product(resultSet.getString("name"),
+                        Double.parseDouble(resultSet.getString("defaultprice")),
+                        resultSet.getString("currency"),
+                        resultSet.getString("description"),
+                        productCategoryDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idcategory"))),
+                        supplierDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idsupplier"))));
+                result.setId(resultSet.getInt("id"));
+                return result;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -53,7 +90,7 @@ public class ProductDaoJDBC implements ProductDao {
     public List<Product> getAll() {
         List<Product> allProducts = new ArrayList<>();
         String query = "SELECT * FROM products;";
-        try (Connection connect = ConnectionDB.getConnection();
+        try (Connection connect = getConnection();
              PreparedStatement statement = connect.prepareStatement(query)
         ) {
             ResultSet resultSet;
@@ -78,12 +115,12 @@ public class ProductDaoJDBC implements ProductDao {
     public List<Product> getBy(ProductCategory productCategory) {
         int idCategory = productCategory.getId();
         List<Product> allProducts = new ArrayList<>();
-        return getProductBy(idCategory,allProducts);
+        return getProductBy(idCategory, allProducts);
     }
 
-    private List<Product> getProductBy(int idParam,List<Product> allProducts){
+    private List<Product> getProductBy(int idParam, List<Product> allProducts) {
         String query = "SELECT * FROM products WHERE idcategory=?;";
-        try (Connection connect = ConnectionDB.getConnection();
+        try (Connection connect = getConnection();
              PreparedStatement statement = connect.prepareStatement(query)
         ) {
             statement.setInt(1, idParam);
