@@ -153,7 +153,7 @@
                     <a href="/add-product">Add new product</a>
                 </div>
                 <div class="card" >
-                    <strong th:text="${category.name}">
+                    <strong th:text="${category !=null}? ${category.name}: 'All categories'">
                         Category Title</strong>
                 </div>
             </div>

@@ -53,7 +53,7 @@ public class MainController extends HttpServlet {
 
         params = new HashMap<String, Object>();
         params.put("products", productDataStore.getAll());
-        params.put("category", productCategoryDataStore.find(1));
+        params.put("category", productCategoryDataStore.find(0));
         params.put("categoryList", productCategoryDataStore.getAll());
         params.put("supplierList", productSupplierDataStore.getAll());
         return params;

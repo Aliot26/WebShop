@@ -69,18 +69,24 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-        return null;
+        int idSupplier = supplier.getId();
+        List<Product> allSupplier = new ArrayList<>();
+        return getProductBy(idSupplier, allSupplier);
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         int idCategory = productCategory.getId();
         List<Product> allProducts = new ArrayList<>();
+        return getProductBy(idCategory,allProducts);
+    }
+
+    private List<Product> getProductBy(int idParam,List<Product> allProducts){
         String query = "SELECT * FROM products WHERE idcategory=?;";
         try (Connection connect = ConnectionDB.getConnection();
              PreparedStatement statement = connect.prepareStatement(query)
         ) {
-            statement.setInt(1, idCategory);
+            statement.setInt(1, idParam);
             ResultSet resultSet;
             resultSet = statement.executeQuery();
             return getProduct(resultSet, allProducts);
