@@ -64,12 +64,14 @@ public class ProductDaoJDBC implements ProductDao {
                         resultSet.getString("description"),
                         productCategoryDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idcategory"))),
                         supplierDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idsupplier"))));
+                result.setId(resultSet.getInt("id"));
+                allProducts.add(result);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        System.out.println("all products: " + allProducts);
         return allProducts;
     }
 
@@ -80,6 +82,29 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
+        int idCategory = productCategory.getId();
+        List<Product> allProducts = new ArrayList<>();
+        String query = "SELECT * FROM products WHERE idcategory=?;";
+        try (Connection connect = ConnectionDB.getConnection();
+             PreparedStatement statement = connect.prepareStatement(query)
+        ) {
+            statement.setInt(1, idCategory);
+            ResultSet resultSet;
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Product result = new Product(resultSet.getString("name"),
+                        Double.parseDouble(resultSet.getString("defaultprice")),
+                        resultSet.getString("currency"),
+                        resultSet.getString("description"),
+                        productCategoryDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idcategory"))),
+                        supplierDataStoreJdbc.find(Integer.parseInt(resultSet.getString("idsupplier"))));
+                result.setId(resultSet.getInt("id"));
+                allProducts.add(result);
+            }
+            return allProducts;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

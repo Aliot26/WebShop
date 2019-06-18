@@ -14,12 +14,16 @@ import java.util.Map;
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends MainController {
 
+//    public ProductController() {
+//        super();
+//    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LineItemDaoMem lineItemDaoMem = LineItemDaoMem.getInstance();
 
         HttpSession session = req.getSession(true);
-        Map <String, Object>params = super.getParams();
+        Map<String, Object> params = super.getParams();
         params.put("counter", session.getAttribute("totalItems"));
         params.put("productsInCart", lineItemDaoMem.getLineItemList());
         super.renderTemplate(req, resp, "product/index.html", params);

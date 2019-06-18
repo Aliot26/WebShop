@@ -8,7 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.codecool.shop.SQL.ConnectionDB.getConnection;
 
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
@@ -24,6 +27,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
         }
         return instance;
     }
+
     @Override
     public void add(ProductCategory category) {
 
@@ -32,7 +36,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     @Override
     public ProductCategory find(int id) {
         String query = "SELECT * FROM categories WHERE id = ?;";
-        try (Connection connect = ConnectionDB.getConnection();
+        try (Connection connect = getConnection();
              PreparedStatement statement = connect.prepareStatement(query)
         ) {
             statement.setInt(1, id);
@@ -59,6 +63,22 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public ProductCategory findByName(String name) {
+        String query = "SELECT * FROM categories WHERE name=?";
+        try (Connection connect = getConnection();
+             PreparedStatement statement = connect.prepareStatement(query)) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ProductCategory result = new ProductCategory(resultSet.getString("name"),
+                        resultSet.getString("department"),
+                        resultSet.getString("description")
+                );
+                result.setId(resultSet.getInt("id"));
+                return result;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -69,6 +89,22 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public List<ProductCategory> getAll() {
-        return null;
+        List<ProductCategory> listAllCategory = new ArrayList<>();
+        String query = "SELECT * FROM categories;";
+        try (Connection connect = getConnection();
+             PreparedStatement statement = connect.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ProductCategory result = new ProductCategory(resultSet.getString("name"),
+                        resultSet.getString("department"),
+                        resultSet.getString("description")
+                );
+                result.setId(resultSet.getInt("id"));
+                listAllCategory.add(result);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listAllCategory;
     }
 }

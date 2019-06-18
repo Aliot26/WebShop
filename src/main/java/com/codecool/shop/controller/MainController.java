@@ -21,12 +21,29 @@ public class MainController extends HttpServlet {
 //    private ProductDao productDataStore = ProductDaoMem.getInstance();
 //    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
 //    private SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+
     private ProductDao productDataStore = ProductDaoJDBC.getInstance();
     private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
     private SupplierDao productSupplierDataStore = SupplierDaoJDBC.getInstance();
 
+//    private ProductDao productDataStore;
+//    private ProductCategoryDao productCategoryDataStore;
+//    private SupplierDao productSupplierDataStore;
 
     private Map<String, Object> params = createMap();
+
+//    public MainController(){
+//        System.out.println("+++++++++");
+//        if (System.getenv("datastore").equals("jdbc")) {
+//            productDataStore = ProductDaoJDBC.getInstance();
+//            productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+//            productSupplierDataStore = SupplierDaoJDBC.getInstance();
+//        } else {
+//            productDataStore = ProductDaoMem.getInstance();
+//            productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+//            productSupplierDataStore = SupplierDaoMem.getInstance();
+//        }
+//    }
 
     public Map<String, Object> getParams() {
         return params;
@@ -35,8 +52,8 @@ public class MainController extends HttpServlet {
     private Map<String, Object> createMap() {
 
         params = new HashMap<String, Object>();
-        params.put("category", productCategoryDataStore.find(1));
         params.put("products", productDataStore.getAll());
+        params.put("category", productCategoryDataStore.find(1));
         params.put("categoryList", productCategoryDataStore.getAll());
         params.put("supplierList", productSupplierDataStore.getAll());
         return params;
