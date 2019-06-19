@@ -164,6 +164,10 @@
                 <form method="POST" action="/cart">
                     <div class="product product-single">
                         <div class="product-thumb">
+<!--                            <strong th:text="${category !=null}? ${category.name}: 'All categories'">-->
+<!--                                Category Title</strong>-->
+<!--                            <span th:text="${isCold} ? 'cold' : 'warm'"></span>-->
+
                             <img src="http://placehold.it/400x250/000/fff"
                                  th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt=""/>
                         </div>

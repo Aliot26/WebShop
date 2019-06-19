@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
 
@@ -21,17 +22,20 @@ public class AddNewProductController extends MainController {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String name = req.getParameter("name");
         double defaultPrice = Double.parseDouble(req.getParameter("defaultPrice"));
-        String currency = req.getParameter("defaultPrice");
+        String currency = req.getParameter("defaultCurrency");
         String description = req.getParameter("description");
         String nameCategory = req.getParameter("category");
         String nameSupplier = req.getParameter("supplier");
 
         ProductCategory category = super.getProductCategoryDataStore().findByName(nameCategory);
         Supplier supplier = super.getProductSupplierDataStore().findByName(nameSupplier);
+//        Currency curr = Currency.getInstance(currency);
 
         Product newProduct = new Product(name, defaultPrice, currency,description, category,supplier);
+
         Map <String, Object>params = super.getParams();
-        params.replace("products", super.getProductDataStore().add(newProduct));
+        super.getProductDataStore().add(newProduct);
+        params.put("products", super.getProductDataStore().getAll());
         super.renderTemplate(req, resp, "product/index.html", params);
     }
 }
