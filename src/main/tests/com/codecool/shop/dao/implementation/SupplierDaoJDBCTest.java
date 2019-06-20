@@ -37,7 +37,6 @@ class SupplierDaoJDBCTest {
     void addTest() {
         supplierDaoJDBC = preparedBase();
         assertEquals(1, supplierDaoJDBC.getAll().size());
-
     }
 
     @Test
@@ -53,8 +52,8 @@ class SupplierDaoJDBCTest {
     @DisplayName("Find by id(not exists)")
     public void findByNotExistsIdTest() {
         supplierDaoJDBC = preparedBase();
-        int idProduct = 999;
-        assertNull(supplierDaoJDBC.find(idProduct));
+        int idSupplier = 999;
+        assertNull(supplierDaoJDBC.find(idSupplier));
     }
 
     @Test
@@ -73,6 +72,14 @@ class SupplierDaoJDBCTest {
         String nameSupplier = supplier.getName();
         Supplier supplier1 = supplierDaoJDBC.findByName(nameSupplier);
         assertEquals(supplier.getName(), supplier1.getName() );
+    }
+
+    @Test
+    @DisplayName("Find by name(not exists)")
+    void findByNotExistsNameTest() {
+        supplierDaoJDBC = preparedBase();
+        String nameSupplier = "qwerty";
+        assertNull(supplierDaoJDBC.findByName(nameSupplier));
     }
 
     @Test
