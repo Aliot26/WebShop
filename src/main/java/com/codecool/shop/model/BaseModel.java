@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 
 public class BaseModel {
 
-    protected int id;
+    protected int id = 1;
     protected String name;
     protected String description;
 

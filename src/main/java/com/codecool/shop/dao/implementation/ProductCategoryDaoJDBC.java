@@ -30,7 +30,18 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public void add(ProductCategory category) {
-
+        String query = "INSERT INTO categories"
+                +"(name, department, description)VALUES "
+                + "(?,?,?)";
+        try(Connection connect = getConnection();
+            PreparedStatement statement = connect.prepareStatement(query)){
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDepartment());
+            statement.setString(3,category.getDescription());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
