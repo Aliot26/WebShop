@@ -71,6 +71,15 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public void remove(int id) {
+        String query = "DELETE  FROM suppliers WHERE id=?;";
+        try (Connection connect = getConnection();
+             PreparedStatement statement = connect.prepareStatement(query)
+        ) {
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

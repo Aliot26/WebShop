@@ -91,7 +91,6 @@ public class ProductDaoJDBC implements ProductDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
 
