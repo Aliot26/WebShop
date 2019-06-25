@@ -1,5 +1,6 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.SQL.ConnectionDB;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 
@@ -7,13 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.codecool.shop.SQL.ConnectionDB.getConnection;
 
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
-
+    private static final ConnectionDB controller = ConnectionDB.getInstance();
     private static ProductCategoryDaoJDBC instance = null;
 
     private ProductCategoryDaoJDBC() {
@@ -27,95 +27,65 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
         return instance;
     }
 
+    private List<ProductCategory> createObject(List<Map<String, Object>> resultRowsFromQuery) {
+        List<ProductCategory> productCategories = new ArrayList<>();
+
+        for (Map singleRow : resultRowsFromQuery) {
+            productCategories.add(new ProductCategory((Integer) singleRow.get("id"),
+                    (String) singleRow.get("name"),
+                    (String) singleRow.get("description"),
+                    (String) singleRow.get("department")));
+        }
+
+        return productCategories;
+    }
+
     @Override
     public void add(ProductCategory category) {
         String query = "INSERT INTO categories"
-                +"(name, department, description)VALUES "
+                + "(name, department, description)VALUES "
                 + "(?,?,?)";
-        try(Connection connect = getConnection();
-            PreparedStatement statement = connect.prepareStatement(query)){
-            statement.setString(1, category.getName());
-            statement.setString(2, category.getDepartment());
-            statement.setString(3,category.getDescription());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        int idAddedCategory = controller.executeUpdate(query, Arrays.asList(category.getName(),
+                category.getDepartment(), category.getDescription()));
+        category.setId(idAddedCategory);
     }
 
     @Override
     public ProductCategory find(int id) {
-        String query = "SELECT * FROM categories WHERE id = ?;";
-        try (Connection connect = getConnection();
-             PreparedStatement statement = connect.prepareStatement(query)
-        ) {
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            return getProductCategory(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+        String query = "SELECT categories.id, categories.name, " +
+                "categories.department, categories.description " +
+                "FROM categories WHERE id = ?;";
+        List<Map<String, Object>> categories;
+        categories = controller.executeQueryWithReturnValue(query, Collections.singletonList(id));
 
-    private ProductCategory getProductCategory(ResultSet resultSet) throws SQLException {
-        if (resultSet.next()) {
-            ProductCategory result = new ProductCategory(resultSet.getString("name"),
-                    resultSet.getString("department"),
-                    resultSet.getString("description"));
-            result.setId(resultSet.getInt("id"));
-            return result;
-        } else {
-            return null;
-        }
+        return(categories.size() != 0) ? this.createObject(categories).get(0) : null;
     }
 
 
     @Override
     public ProductCategory findByName(String name) {
-        String query = "SELECT * FROM categories WHERE name=?";
-        try (Connection connect = getConnection();
-             PreparedStatement statement = connect.prepareStatement(query)) {
-            statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
-            return getProductCategory(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        String query = "SELECT categories.id, categories.name, " +
+                "categories.department, categories.description " +
+                "FROM categories WHERE name=?";
+        List<Map<String, Object>> categories;
+        categories = controller.executeQueryWithReturnValue(query, Collections.singletonList(name));
+
+        return(categories.size() != 0) ? this.createObject(categories).get(0) : null;
     }
 
     @Override
     public void remove(int id) {
-        String query = "DELETE  FROM categories WHERE id=?;";
-        try (Connection connect = getConnection();
-             PreparedStatement statement = connect.prepareStatement(query)
-        ) {
-            statement.setInt(1, id);
-            statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        controller.executeUpdate("DELETE FROM categories WHERE id=?",
+                Collections.singletonList(id));
     }
 
     @Override
     public List<ProductCategory> getAll() {
-        List<ProductCategory> listAllCategory = new ArrayList<>();
-        String query = "SELECT * FROM categories;";
-        try (Connection connect = getConnection();
-             PreparedStatement statement = connect.prepareStatement(query)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                ProductCategory result = new ProductCategory(resultSet.getString("name"),
-                        resultSet.getString("department"),
-                        resultSet.getString("description")
-                );
-                result.setId(resultSet.getInt("id"));
-                listAllCategory.add(result);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listAllCategory;
+        String query = "SELECT categories.id, categories.name, " +
+                "categories.department, categories.description " +
+                "FROM categories:";
+        List<Map<String, Object>> categories;
+        categories = controller.executeQueryWithReturnValue(query, Collections.emptyList());
+        return this.createObject(categories);
     }
 }

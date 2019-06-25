@@ -4,7 +4,6 @@ package com.codecool.shop.model;
 import java.lang.reflect.Field;
 
 public class BaseModel {
-    //TODO remove 1 from id
     protected Integer id;
     protected String name;
     protected String description;

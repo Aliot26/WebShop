@@ -69,12 +69,12 @@ public class ProductDaoJDBC implements ProductDao {
         String query = "INSERT INTO products"
                 + "(name, defaultprice, currency, description, idcategory, idsupplier)VALUES "
                 + "(?,?,?,?,?,?) ON CONFLICT DO NOTHING RETURNING id;";
-        int idAddingProduct =
+        int idAddedProduct =
                 controller.executeUpdate(query, Arrays.asList(product.getName(),
                         product.getDefaultPrice(), String.valueOf(product.getDefaultCurrency()),
                         product.getDescription(), product.getProductCategory().getId(),
                         product.getSupplier().getId()));
-        product.setId(idAddingProduct);
+        product.setId(idAddedProduct);
     }
 
     @Override
