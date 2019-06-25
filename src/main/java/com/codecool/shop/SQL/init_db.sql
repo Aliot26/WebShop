@@ -13,8 +13,8 @@ create table products(
                          defaultprice   double precision,
                          currency varchar,
                          description    varchar,
-                         idcategory     integer,
-                         idsupplier     integer
+                         idcategory     integer not null ,
+                         idsupplier     integer not null
 );
 ALTER SEQUENCE products_id_seq OWNED BY products.id;
 

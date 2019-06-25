@@ -57,7 +57,7 @@ public class SupplierDaoJDBC implements SupplierDao {
         }
         return null;
     }
-
+//makeSupplier
     private Supplier getSupplier(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
             Supplier result = new Supplier(resultSet.getString("name"),

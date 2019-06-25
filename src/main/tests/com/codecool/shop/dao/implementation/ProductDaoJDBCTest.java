@@ -57,8 +57,16 @@ class ProductDaoJDBCTest {
     public void findByIdTest() {
         productDaoJDBC = preparedBase();
         int idProduct = 1;
+        Product product = new Product("Kindle Paperwhite",
+                50, "USD",
+                "We love Kindle :)",
+                productCategory,
+                supplier);
+        productDaoJDBC.add(product);
+
         Product productFromDatabase = productDaoJDBC.find(idProduct);
-        assertEquals(idProduct, productFromDatabase.getId());
+        assertEquals(product.getName(), productFromDatabase.getName());
+        assertEquals(product.getDefaultPrice(), productFromDatabase.getDefaultPrice());
     }
 
     @Test
