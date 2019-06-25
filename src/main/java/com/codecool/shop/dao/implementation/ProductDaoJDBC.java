@@ -89,7 +89,7 @@ public class ProductDaoJDBC implements ProductDao {
     @Override
     public void remove(int id) {
         controller.executeUpdate(
-                "DELETE FROM product WHERE id = ?;",
+                "DELETE FROM products WHERE id = ? RETURNING id;",
                 Collections.singletonList(id));
     }
 

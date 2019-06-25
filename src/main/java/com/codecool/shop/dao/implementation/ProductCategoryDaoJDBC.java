@@ -44,7 +44,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     public void add(ProductCategory category) {
         String query = "INSERT INTO categories"
                 + "(name, department, description)VALUES "
-                + "(?,?,?)";
+                + "(?,?,?)ON CONFLICT DO NOTHING RETURNING id;";
         int idAddedCategory = controller.executeUpdate(query, Arrays.asList(category.getName(),
                 category.getDepartment(), category.getDescription()));
         category.setId(idAddedCategory);
@@ -75,15 +75,16 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public void remove(int id) {
-        controller.executeUpdate("DELETE FROM categories WHERE id=?",
+        controller.executeUpdate("DELETE FROM categories WHERE id=? RETURNING id;",
                 Collections.singletonList(id));
+
     }
 
     @Override
     public List<ProductCategory> getAll() {
         String query = "SELECT categories.id, categories.name, " +
                 "categories.department, categories.description " +
-                "FROM categories:";
+                "FROM categories;";
         List<Map<String, Object>> categories;
         categories = controller.executeQueryWithReturnValue(query, Collections.emptyList());
         return this.createObject(categories);

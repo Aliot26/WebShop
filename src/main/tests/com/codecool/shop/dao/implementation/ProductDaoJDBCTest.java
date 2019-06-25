@@ -29,7 +29,7 @@ class ProductDaoJDBCTest {
 
     @BeforeEach
     private void clear() {
-        String query = "TRUNCATE TABLE categories, suppliers, products RESTART IDENTITY";
+        String query = "TRUNCATE TABLE suppliers, categories, products RESTART IDENTITY";
         try (Connection connect = getConnection();
              PreparedStatement statement = connect.prepareStatement(query)) {
             statement.execute();
@@ -49,7 +49,9 @@ class ProductDaoJDBCTest {
     @DisplayName("Adding to database")
     public void addTest() {
         productDaoJDBC = preparedBase();
-        assertEquals(1, productDaoJDBC.getAll().size());
+//        assertEquals(0, productDaoJDBC.getAll().size());
+        productDaoJDBC.add(product);
+        assertEquals(2, productDaoJDBC.getAll().size());
     }
 
     @Test

@@ -43,7 +43,7 @@ public class SupplierDaoJDBC implements SupplierDao {
     public void add(Supplier supplier) {
         String query = "INSERT INTO suppliers"
                 + "(name, description)VALUES "
-                + "(?,?,?)";
+                + "(?,?) ON CONFLICT DO NOTHING RETURNING id;";
         int idAddedSupplier = controller.executeUpdate(query,
                 Arrays.asList(supplier.getName(), supplier.getDescription()));
         supplier.setId(idAddedSupplier);
@@ -64,7 +64,7 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public void remove(int id) {
-        controller.executeUpdate("DELETE FROM suppliers WHERE id=?",
+        controller.executeUpdate("DELETE FROM suppliers WHERE id=? RETURNING id;",
                 Collections.singletonList(id));
     }
 
