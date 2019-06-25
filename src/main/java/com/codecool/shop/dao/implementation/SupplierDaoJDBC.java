@@ -8,13 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.codecool.shop.SQL.ConnectionDB.getConnection;
 
 public class SupplierDaoJDBC implements SupplierDao {
-
+    private static final ConnectionDB controller = ConnectionDB.getInstance();
     private static SupplierDaoJDBC instance = null;
 
     private SupplierDaoJDBC() {
@@ -28,92 +27,67 @@ public class SupplierDaoJDBC implements SupplierDao {
         return instance;
     }
 
+    private List<Supplier> createObject(List<Map<String, Object>> resultRowsFromQuery) {
+        List<Supplier> suppliers = new ArrayList<>();
+
+        for (Map singleRow : resultRowsFromQuery) {
+            suppliers.add(new Supplier((Integer) singleRow.get("id"),
+                    (String) singleRow.get("name"),
+                    (String) singleRow.get("description")));
+        }
+
+        return suppliers;
+    }
+
     @Override
     public void add(Supplier supplier) {
         String query = "INSERT INTO suppliers"
-                +"(name,  description)VALUES "
-                + "(?,?)";
-        try(Connection connect = getConnection();
-            PreparedStatement statement = connect.prepareStatement(query)){
-            statement.setString(1, supplier.getName());
-            statement.setString(2,supplier.getDescription());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+                + "(name, description)VALUES "
+                + "(?,?,?)";
+        int idAddedSupplier = controller.executeUpdate(query,
+                Arrays.asList(supplier.getName(), supplier.getDescription()));
+        supplier.setId(idAddedSupplier);
     }
 
     @Override
     public Supplier find(int id) {
-        String query = "SELECT * FROM suppliers WHERE id = ?;";
-        try (Connection connect = getConnection();
-             PreparedStatement statement = connect.prepareStatement(query)
-        ) {
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            return getSupplier(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        String query = "SELECT suppliers.id, suppliers.name, " +
+                "suppliers.description " +
+                "FROM suppliers WHERE id = ?;";
+        List<Map<String, Object>> suppliers;
+        suppliers = controller.executeQueryWithReturnValue(query, Collections.singletonList(id));
+
+        return (suppliers.size() != 0) ? this.createObject(suppliers).get(0) : null;
+
     }
-//makeSupplier
-    private Supplier getSupplier(ResultSet resultSet) throws SQLException {
-        if (resultSet.next()) {
-            Supplier result = new Supplier(resultSet.getString("name"),
-                    resultSet.getString("description"));
-            result.setId(resultSet.getInt("id"));
-            return result;
-        } else {
-            return null;
-        }
-    }
+
 
     @Override
     public void remove(int id) {
-        String query = "DELETE  FROM suppliers WHERE id=?;";
-        try (Connection connect = getConnection();
-             PreparedStatement statement = connect.prepareStatement(query)
-        ) {
-            statement.setInt(1, id);
-            statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        controller.executeUpdate("DELETE FROM suppliers WHERE id=?",
+                Collections.singletonList(id));
     }
 
     @Override
     public Supplier findByName(String name) {
-        String query = "SELECT * FROM suppliers WHERE name=?";
-        try (Connection connect = getConnection();
-             PreparedStatement statement = connect.prepareStatement(query)) {
-            statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
-            return getSupplier(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        String query = "SELECT suppliers.id, suppliers.name, " +
+                "suppliers.description " +
+                "FROM suppliers WHERE name=?";
+        List<Map<String, Object>> suppliers;
+        suppliers = controller.executeQueryWithReturnValue(query, Collections.singletonList(name));
+
+        return (suppliers.size() != 0) ? this.createObject(suppliers).get(0) : null;
+
     }
 
     @Override
     public List<Supplier> getAll() {
-        List<Supplier> listAllSupplier = new ArrayList<>();
-        String query = "SELECT * FROM suppliers;";
+        String query = "SELECT suppliers.id, suppliers.name, " +
+                "suppliers.description " +
+                "FROM suppliers";
+        List<Map<String, Object>> suppliers;
+        suppliers = controller.executeQueryWithReturnValue(query, Collections.emptyList());
+        return this.createObject(suppliers);
 
-        try (Connection connect = getConnection();
-             PreparedStatement statement = connect.prepareStatement(query)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Supplier result = new Supplier(resultSet.getString("name"),
-                        resultSet.getString("description")
-                );
-                result.setId(resultSet.getInt("id"));
-                listAllSupplier.add(result);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listAllSupplier;
     }
 }
