@@ -27,6 +27,7 @@
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/custom.css"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -150,23 +151,26 @@
                     <h2 class="title">Products</h2>
                 </div>
                 <div>
-                    <a href="/add-product">Add new product</a>
+                    <button class="main-btn">
+                        <a href="/add-product">Add new product</a>
+                    </button>
                 </div>
-                <div class="card" >
-                    <strong th:text="${category !=null}? ${category.name}: 'All categories'">
-                        Category Title</strong>
+                <div class="card">
+                    <h3><strong th:text="${category !=null}? ${category.name}: 'All categories'">
+                        Category Title</strong></h3>
                 </div>
             </div>
-            <!-- section title -->
-
+        </div>
+        <!-- section title -->
+        <div class="row">
             <!-- Product Single -->
             <div class="col-md-3 col-sm-6 col-xs-6" th:each="prod,iterStat : ${products}">
                 <form method="POST" action="/cart">
                     <div class="product product-single">
                         <div class="product-thumb">
-<!--                            <strong th:text="${category !=null}? ${category.name}: 'All categories'">-->
-<!--                                Category Title</strong>-->
-<!--                            <span th:text="${isCold} ? 'cold' : 'warm'"></span>-->
+                            <!--                            <strong th:text="${category !=null}? ${category.name}: 'All categories'">-->
+                            <!--                                Category Title</strong>-->
+                            <!--                            <span th:text="${isCold} ? 'cold' : 'warm'"></span>-->
 
                             <img src="http://placehold.it/400x250/000/fff"
                                  th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt=""/>
