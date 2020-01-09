@@ -16,3 +16,10 @@ Created to practice:OOP paradigm, Servlets implementation, Data Access Object pa
 - https://github.com/KacperMitkowski
 - https://github.com/Aliot26
 - https://github.com/wickedkat
+
+## Screenshots:
+![ScreenShot](https://github.com/Aliot26/WebShop/blob/master/src/main/webapp/static/img/print-screen/change-product.png?raw=true)
+
+![ScreenShot](https://github.com/Aliot26/WebShop/blob/master/src/main/webapp/static/img/print-screen/products-in-cart.png?raw=true)
+
+![ScreenShot](https://github.com/Aliot26/WebShop/blob/master/src/main/webapp/static/img/print-screen/order-list.png?raw=true)
